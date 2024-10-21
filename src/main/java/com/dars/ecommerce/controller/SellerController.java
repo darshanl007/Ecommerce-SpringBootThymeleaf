@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dars.ecommerce.dto.Seller;
+import com.dars.ecommerce.service.SellerService;
 
 import jakarta.validation.Valid;
 
@@ -18,20 +19,17 @@ public class SellerController {
 
 	@Autowired
 	Seller seller;
-	
+
+	@Autowired
+	SellerService sellerService;
+
 	@GetMapping("/register")
 	public String loadRegister(ModelMap map) {
-		map.put("seller", seller);
-		return "seller-register.html";
+		return sellerService.loadRegister(map);
 	}
-	
-    @PostMapping("/register")
-	public String register(@Valid Seller seller, BindingResult result) {
-		if(result.hasErrors()) {
-			return "seller-register.html";
-		}
-		else {
-			return "redirect:https://www.instagram.com";
-		}
+
+	@PostMapping("/register")
+	public String register(@Valid Seller seller, BindingResult result, ModelMap map) {
+		return sellerService.loadRegister(seller, result, map);
 	}
 }
