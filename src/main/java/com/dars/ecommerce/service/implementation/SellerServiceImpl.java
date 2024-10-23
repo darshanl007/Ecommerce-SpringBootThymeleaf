@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import com.dars.ecommerce.dto.Seller;
+import com.dars.ecommerce.helper.AES;
 import com.dars.ecommerce.helper.MyEmailSender;
 import com.dars.ecommerce.repository.SellerRepository;
 import com.dars.ecommerce.service.SellerService;
@@ -48,6 +49,9 @@ public class SellerServiceImpl implements SellerService {
 		else {
 			int otp = new Random().nextInt(100000, 1000000);
 			seller.setOtp(otp);
+			
+			seller.setPassword(AES.encrypt(seller.getPassword(), "123"));
+			
 			sellerRepository.save(seller);
 			emailSender.sendOtp(seller);
 
