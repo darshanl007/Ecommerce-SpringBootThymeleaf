@@ -12,5 +12,5 @@ public class CustomerController {
 	public String loadRegister() {
 		return "customer-register.html";
 	}
-	
+
 }

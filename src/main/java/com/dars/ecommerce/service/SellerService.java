@@ -13,4 +13,6 @@ public interface SellerService {
 
 	String loadRegister(@Valid Seller seller, BindingResult result, ModelMap map);
 
+	String submitOtp(int id, int otp, ModelMap map);
+
 }
