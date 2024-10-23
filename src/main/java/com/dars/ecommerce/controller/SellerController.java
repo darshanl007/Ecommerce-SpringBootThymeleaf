@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dars.ecommerce.dto.Seller;
 import com.dars.ecommerce.service.SellerService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -31,12 +32,17 @@ public class SellerController {
 	}
 
 	@PostMapping("/register")
-	public String register(@Valid Seller seller, BindingResult result, ModelMap map) {
-		return sellerService.loadRegister(seller, result, map);
+	public String register(@Valid Seller seller, BindingResult result, HttpSession session) {
+		return sellerService.loadRegister(seller, result, session);
+	}
+	
+	@GetMapping("/otp")
+	public String loadOtpPage() {
+		return "seller-otp.html";
 	}
 
 	@PostMapping("/submit-otp/{id}")
-	public String submitOtp(@PathVariable int id, @RequestParam int otp, ModelMap map) {
-		return sellerService.submitOtp(id, otp, map);
+	public String submitOtp(@PathVariable int id, @RequestParam int otp, HttpSession session) {
+		return sellerService.submitOtp(id, otp, session);
 	}
 }

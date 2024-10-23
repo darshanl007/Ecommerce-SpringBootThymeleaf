@@ -7,7 +7,7 @@
 <body>
 	<h1>Enter OTP</h1>
 	<h3 th:text="${failure}"></h3>
-	<form th:action="'/seller/submit-otp/'+${id}" method="post">
+	<form th:action="'/seller/submit-otp/'+${session.id}" method="post">
 		OTP: <input type="number" name="otp"><br> <br>
 		<button>Submit</button>
 		<br> <br> <a>Resend OTP</a>
