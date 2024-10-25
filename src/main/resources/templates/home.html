@@ -5,13 +5,20 @@
 <title>Home</title>
 </head>
 <body>
+
 <div align="center">
-<h2 th:text=${success}></h2>
+	<div align="center">
+		<h2  th:if="${session.success}" th:text="${session.success}"></h2> 
+   		<h3 th:if="${session.failure}" th:text="${session.failure}"></h3>
+   		<div th:text="${@sessionMessageRemover.removeMessage()}"></div>
+    </div>
+
 	<h1 align="center" style="color:green">Ecommerce Website</h1>
 	<a href="/"><button>Home</button></a>
 	<a href="/"><button>Products</button></a>
 	<a href="/"><button>Login</button></a>
 	<a href="/customer/register"><button>Register</button></a>
+
 </div>
 </body>
 </html>
