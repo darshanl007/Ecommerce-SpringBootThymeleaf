@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Customer Home</title>
+</head>
+<body>
+
+<h2  th:if="${session.success}" th:text="${session.success}"></h2> 
+<h3 th:if="${session.failure}" th:text="${session.failure}"></h3>
+<div th:text="${@sessionMessageRemover.removeMessage()}"></div>
+
+<h1>Customer Home Page</h1>
+</body>
+</html>

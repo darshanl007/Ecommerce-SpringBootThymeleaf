@@ -78,4 +78,15 @@ public class SellerServiceImpl implements SellerService {
 			return "redirect:/seller/otp";
 		}
 	}
+
+	@Override
+	public String loadHome(HttpSession session) {
+		if(session.getAttribute("seller")!=null) {
+			return "seller-home.html";
+		}
+		else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
+		}
+	}
 }

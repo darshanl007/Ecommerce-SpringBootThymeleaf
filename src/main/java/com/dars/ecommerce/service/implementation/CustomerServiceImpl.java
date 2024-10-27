@@ -78,4 +78,13 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 	}
 
+	@Override
+	public String loadHome(HttpSession session) {
+		if (session.getAttribute("customer") != null)
+			return "customer-home.html";
+		else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
+		}
+	}
 }

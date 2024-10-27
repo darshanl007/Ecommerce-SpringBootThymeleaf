@@ -16,4 +16,6 @@ public interface SellerService {
 
 	String submitOtp(int id, int otp, HttpSession session);
 
+	String loadHome(HttpSession session);
+
 }
