@@ -5,10 +5,14 @@
 <title>Admin Home</title>
 </head>
 <body>
-<h2>Admin Home Page</h2>
 
-<h2  th:if="${session.success}" th:text="${session.success}"></h2> 
-<h3 th:if="${session.failure}" th:text="${session.failure}"></h3>
-<div th:text="${@sessionMessageRemover.removeMessage()}"></div>
+	<h2>----------Admin Dashboard----------</h2>
+	<h3>Manage your Store and Products</h3>
+	<a href=""><button>Approve Products</button></a>
+	<a href=""><button>Logout</button></a>
+
+	<h2 th:if="${session.success}" th:text="${session.success}"></h2>
+	<h3 th:if="${session.failure}" th:text="${session.failure}"></h3>
+	<div th:text="${@sessionMessageRemover.removeMessage()}"></div>
 </body>
 </html>
