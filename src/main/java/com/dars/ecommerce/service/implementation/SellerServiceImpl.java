@@ -7,11 +7,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.dars.ecommerce.dto.Product;
 import com.dars.ecommerce.dto.Seller;
 import com.dars.ecommerce.helper.AES;
+import com.dars.ecommerce.helper.CloudinaryHelper;
 import com.dars.ecommerce.helper.MyEmailSender;
 import com.dars.ecommerce.repository.CustomerRepository;
+import com.dars.ecommerce.repository.ProductRepository;
 import com.dars.ecommerce.repository.SellerRepository;
 import com.dars.ecommerce.service.SellerService;
 
@@ -32,6 +36,15 @@ public class SellerServiceImpl implements SellerService {
 
 	@Autowired
 	CustomerRepository customerRepository;
+
+	@Autowired
+	Product product;
+
+	@Autowired
+	CloudinaryHelper cloudinaryHelper;
+
+	@Autowired
+	ProductRepository productRepository;
 
 	@Override
 	public String loadRegister(ModelMap map) {
@@ -81,10 +94,40 @@ public class SellerServiceImpl implements SellerService {
 
 	@Override
 	public String loadHome(HttpSession session) {
-		if(session.getAttribute("seller")!=null) {
+		if (session.getAttribute("seller") != null) {
 			return "seller-home.html";
+		} else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
 		}
-		else {
+	}
+
+	@Override
+	public String addProduct(HttpSession session, ModelMap map) {
+		if (session.getAttribute("seller") != null) {
+			map.put("product", product);
+			return "add-product.html";
+		} else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String addProduct(HttpSession session, @Valid Product product, BindingResult result, MultipartFile image) {
+		if (session.getAttribute("seller") != null) {
+			if (result.hasErrors()) {
+				return "add-product.html";
+			} else {
+				product.setSeller((Seller) session.getAttribute("seller"));
+				product.setImageLink(cloudinaryHelper.saveImage(image));
+				productRepository.save(product);
+
+				session.setAttribute("success", "Product Added Success");
+				;
+				return "redirect:/seller/home";
+			}
+		} else {
 			session.setAttribute("failure", "Invalid Session, Login Again");
 			return "redirect:/login";
 		}

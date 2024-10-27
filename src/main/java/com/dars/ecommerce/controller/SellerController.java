@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.dars.ecommerce.dto.Product;
 import com.dars.ecommerce.dto.Seller;
 import com.dars.ecommerce.service.SellerService;
 
+import ch.qos.logback.core.model.Model;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -49,5 +52,15 @@ public class SellerController {
 	@GetMapping("/home")
 	public String loadHome(HttpSession session) {
 		return sellerService.loadHome(session);
+	}
+	
+	@GetMapping("/add-product")
+	public String addProduct(HttpSession session,ModelMap map) {
+		return sellerService.addProduct(session,map);
+	}
+	
+	@PostMapping("/add-product")
+	public String addProduct(HttpSession session,@Valid Product product,BindingResult result,@RequestParam MultipartFile image) {
+		return sellerService.addProduct(session, product, result, image);
 	}
 }
