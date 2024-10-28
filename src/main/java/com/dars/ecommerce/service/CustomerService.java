@@ -18,4 +18,6 @@ public interface CustomerService {
 
 	String loadHome(HttpSession session);
 
+	String viewProducts(HttpSession session, ModelMap map);
+
 }

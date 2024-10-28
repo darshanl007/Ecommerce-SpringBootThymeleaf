@@ -11,4 +11,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	List<Product> findBySeller_id(int id);
 
+	List<Product> findByApprovedTrue();
+
 }

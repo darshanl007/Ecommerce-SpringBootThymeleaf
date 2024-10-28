@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Customer Products</title>
+</head>
+<body>
+
+	<h2 th:if="${session.success}" th:text="${session.success}"></h2>
+	<h3 th:if="${session.failure}" th:text="${session.failure}"></h3>
+	<div th:text="${@sessionMessageRemover.removeMessage()}"></div>
+
+	<div align="center">
+	<h1>Customer Products</h1>
+		<table border="1px soild Black">
+			<tr>
+				<th>Name</th>
+				<th>Image</th>
+				<th>Description</th>
+				<th>Category</th>
+				<th>Price</th>
+				<th>Stock</th>
+				<th>Remove</th>
+				<th>Quantity</th>
+				<th>Add</th>
+			</tr>
+			<tr th:each="product:${products}">
+				<th th:text="${product.name}"></th>
+				<th><img th:src="${product.imageLink}" th:alt="${product.name}"
+					height="100px" width="100px"></th>
+				<th th:text="${product.description}"></th>
+				<th th:text="${product.category}"></th>
+				<th th:text="'₹'+${product.price}"></th>
+				<th th:text="${product.stock}"></th>
+				<th><button>-</button></th>
+				<th>0</th>
+				<th><a><button>+</button></a></th>
+			</tr>
+		</table>
+
+		<br> <br> <a href="/customer/home"><button>Back</button></a>
+	</div>
+</body>
+</html>

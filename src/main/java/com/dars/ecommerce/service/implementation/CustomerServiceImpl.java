@@ -1,5 +1,6 @@
 package com.dars.ecommerce.service.implementation;
 
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 import com.dars.ecommerce.dto.Customer;
+import com.dars.ecommerce.dto.Product;
 import com.dars.ecommerce.helper.AES;
 import com.dars.ecommerce.helper.MyEmailSender;
 import com.dars.ecommerce.repository.CustomerRepository;
+import com.dars.ecommerce.repository.ProductRepository;
 import com.dars.ecommerce.repository.SellerRepository;
 import com.dars.ecommerce.service.CustomerService;
 
@@ -30,6 +33,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	SellerRepository sellerRepository;
+
+	@Autowired
+	ProductRepository productRepository;
 
 	@Override
 	public String loadRegister(ModelMap map) {
@@ -83,6 +89,24 @@ public class CustomerServiceImpl implements CustomerService {
 		if (session.getAttribute("customer") != null)
 			return "customer-home.html";
 		else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String viewProducts(HttpSession session, ModelMap map) {
+		if (session.getAttribute("customer") != null) {
+
+			List<Product> products = productRepository.findByApprovedTrue();
+			if (products.isEmpty()) {
+				session.setAttribute("failure", "No Products Found");
+				return "redirect:/customer/home";
+			} else {
+				map.put("products", products);
+				return "customer-products.html";
+			}
+		} else {
 			session.setAttribute("failure", "Invalid Session, Login Again");
 			return "redirect:/login";
 		}
