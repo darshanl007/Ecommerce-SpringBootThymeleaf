@@ -55,11 +55,11 @@ public class MainController {
 		} else {
 			Seller seller = sellerRepository.findByEmail(email);
 			Customer customer = customerRepository.findByEmail(email);
-			
+
 			if (seller == null && customer == null) {
 				session.setAttribute("failure", "Invalid Email");
 				return "redirect:/login";
-				
+
 			} else {
 				if (seller == null) {
 					if (AES.decrypt(customer.getPassword(), "123").equals(password)) {
@@ -102,4 +102,12 @@ public class MainController {
 		}
 	}
 
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("admin");
+		session.removeAttribute("seller");
+		session.removeAttribute("customer");
+		session.setAttribute("success", "Logged Out Successfully");
+		return "redirect:/";
+	}
 }
