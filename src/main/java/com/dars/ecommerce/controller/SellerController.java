@@ -63,4 +63,9 @@ public class SellerController {
 	public String addProduct(HttpSession session,@Valid Product product,BindingResult result,@RequestParam MultipartFile image) {
 		return sellerService.addProduct(session, product, result, image);
 	}
+	
+	@GetMapping("/manage-products")
+	public String viewProducts(HttpSession session,ModelMap map) {
+		return sellerService.viewProducts(session,map);
+	}
 }

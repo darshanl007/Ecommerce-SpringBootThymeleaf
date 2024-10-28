@@ -1,5 +1,6 @@
 package com.dars.ecommerce.service.implementation;
 
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +127,25 @@ public class SellerServiceImpl implements SellerService {
 				session.setAttribute("success", "Product Added Success");
 				;
 				return "redirect:/seller/home";
+			}
+		} else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String viewProducts(HttpSession session, ModelMap map) {
+		if (session.getAttribute("seller") != null) {
+			Seller seller = (Seller) session.getAttribute("seller");
+			List<Product> products = productRepository.findBySeller_id(seller.getId());
+
+			if (products.isEmpty()) {
+				session.setAttribute("failure", "No Products Added Yet");
+				return "redirect:/seller/home";
+			} else {
+				map.put("products", products);
+				return "seller-products.html";
 			}
 		} else {
 			session.setAttribute("failure", "Invalid Session, Login Again");

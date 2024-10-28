@@ -24,4 +24,6 @@ public interface SellerService {
 
 	String addProduct(HttpSession session, @Valid Product product, BindingResult result, MultipartFile image);
 
+	String viewProducts(HttpSession session, ModelMap map);
+
 }
