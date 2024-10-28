@@ -34,10 +34,13 @@
 			<th th:text="${product.category}"></th>
 			<th th:text="${product.stock}"></th>
 			<th th:text="'₹'+${product.price}"></th>
-			<th><a><button>Approve</button></a></th>
-			<th><a><button>Reject</button></a>
+			<th><a th:if="${!product.approved}" th:href="'/admin/approve-product/'+${product.id}"><button>Approve</button></a></th>
+			<th><a th:if="${product.approved}" th:href="'/admin/reject-product/'+${product.id}"><button>Reject</button></a></th>
 		
 			</tr>
 	</table>
+	<br>
+	<a href="/admin/home"><button>Back</button></a>
+</div>
 </body>
 </html>
