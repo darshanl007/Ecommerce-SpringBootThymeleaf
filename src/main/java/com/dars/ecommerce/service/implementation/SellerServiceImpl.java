@@ -1,5 +1,6 @@
 package com.dars.ecommerce.service.implementation;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -146,6 +147,56 @@ public class SellerServiceImpl implements SellerService {
 			} else {
 				map.put("products", products);
 				return "seller-products.html";
+			}
+		} else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String deleteProduct(HttpSession session, int id) {
+		if (session.getAttribute("seller") != null) {
+			productRepository.deleteById(id);
+			session.setAttribute("success", "Product Deleted Success");
+			return "redirect:/seller/manage-products";
+		} else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String editProduct(HttpSession session, int id, ModelMap map) {
+		if (session.getAttribute("seller") != null) {
+			Product product = productRepository.findById(id).orElseThrow();
+			map.put("product", product);
+			return "edit-product.html";
+		} else {
+			session.setAttribute("failure", "Invalid Session, Login Again");
+			return "redirect:/login";
+		}
+	}
+
+	@Override
+	public String updateProduct(HttpSession session, @Valid Product product, BindingResult result,
+			MultipartFile image) {
+		if (session.getAttribute("seller") != null) {
+			if (result.hasErrors()) {
+				return "edit-product.html";
+			} else {
+				product.setSeller((Seller) session.getAttribute("seller"));
+
+				try {
+					if (image.getBytes() != null || image.getBytes().length != 0)
+						product.setImageLink(cloudinaryHelper.saveImage(image));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				productRepository.save(product);
+				session.setAttribute("success", "Product Updated Success");
+				return "redirect:/seller/manage-products";
 			}
 		} else {
 			session.setAttribute("failure", "Invalid Session, Login Again");

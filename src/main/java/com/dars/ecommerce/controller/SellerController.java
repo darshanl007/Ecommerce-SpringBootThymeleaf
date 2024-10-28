@@ -68,4 +68,19 @@ public class SellerController {
 	public String viewProducts(HttpSession session,ModelMap map) {
 		return sellerService.viewProducts(session,map);
 	}
+	
+	@GetMapping("/delete-product/{id}")
+	public String deleteProduct(HttpSession session,@PathVariable int id) {
+		return sellerService.deleteProduct(session,id);
+	}
+	
+	@GetMapping("/edit-product/{id}")
+	public String editProduct(HttpSession session,@PathVariable int id,ModelMap map) {
+		return sellerService.editProduct(session,id,map);
+	}
+	
+	@PostMapping("/edit-product")
+	public String updateProduct(HttpSession session,@Valid Product product,BindingResult result,@RequestParam MultipartFile image) {
+		return sellerService.updateProduct(session,product,result,image);
+	}
 }

@@ -26,4 +26,10 @@ public interface SellerService {
 
 	String viewProducts(HttpSession session, ModelMap map);
 
+	String deleteProduct(HttpSession session, int id);
+
+	String editProduct(HttpSession session, int id, ModelMap map);
+
+	String updateProduct(HttpSession session, @Valid Product product, BindingResult result, MultipartFile image);
+
 }
